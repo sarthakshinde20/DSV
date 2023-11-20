@@ -60,3 +60,5 @@ y = x + np.random.randint(10,20,50)
 np.corrcoef(x,y)
 
 plt.scatter(x,y)
+
+ax = sns.heatmap(np.corrcoef(x,y), annot= True)
