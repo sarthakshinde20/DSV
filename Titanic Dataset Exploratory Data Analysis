@@ -1,0 +1,38 @@
+import pandas as pd
+titanic = pd.read_csv('titanic-train.csv')
+
+titanic.head()
+
+titanic.isnull().sum()
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.catplot(x ="Sex", hue ="Survived", 
+kind ="count", data = titanic)
+
+
+group = titanic.groupby(['Pclass', 'Survived'])
+pclass_survived = group.size().unstack()
+sns.heatmap(pclass_survived, annot = True, fmt ="d")
+
+
+sns.violinplot(x ="Sex", y ="Age", hue ="Survived", 
+data = titanic, split = True)
+
+
+titanic['Family_Size'] = 0
+titanic['Family_Size'] = titanic['Parch']+titanic['SibSp']
+titanic['Alone'] = 0
+titanic.loc[titanic.Family_Size == 0, 'Alone'] = 1
+sns.boxplot(x ='Family_Size', y ='Survived', data = titanic)
+sns.boxplot(x ='Alone', y ='Survived', data = titanic)
+
+
+titanic['Fare_Range'] = pd.qcut(titanic['Fare'], 4)
+sns.barplot(x ='Fare_Range', y ='Survived', 
+data = titanic)
+
+
+sns.catplot(x ='Embarked', hue ='Survived', 
+kind ='count', col ='Pclass', data = titanic)
